@@ -1,0 +1,9 @@
+regions:
+  - "eu-west-3"
+  - "global"
+
+account-blocklist:
+  - "production"
+
+accounts:
+  "024762031643": {}

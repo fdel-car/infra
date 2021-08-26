@@ -1,0 +1,2 @@
+- name: christiangda.amazon_cloudwatch_agent
+  version: 2.0.7
