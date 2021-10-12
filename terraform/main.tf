@@ -99,7 +99,7 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
-  public_key = file("${path.module}/../config/public_keys/aws_rsa.pub")
+  public_key = file("${path.module}/public_keys/aws_rsa.pub")
   tags = {
     Terraform   = true
     Environment = "development"
