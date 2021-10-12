@@ -4,4 +4,4 @@ To test the Terraform integrations I used [this workflow](https://github.com/has
 But I feel that even using GitHub Actions just for pull requests is quite nice :)
 
 If you try to clone this project you won't be able to run any terraform commands since it's setup to run remotely, you'll need access to this project: https://app.terraform.io/app/definitely-not-strapi/workspaces/learning-infra.
-I can give you access to it, if you want no problem. They have some nice features like state locking, setting environment variables using Vault, etc.
+I can give you access to it if you want, no problem. They have some nice features like state locking, setting environment variables using Vault, etc.
