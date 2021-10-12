@@ -5,10 +5,20 @@ terraform {
       version : "3.51.0"
     }
   }
+  backend "remote" {
+    organization = "definitely-not-strapi"
+
+    workspaces {
+      name = "learning-infra"
+    }
+  }
 }
 
 provider "aws" {
   region = var.aws_region
+  assume_role {
+    role_arn = "arn:aws:iam::024762031643:role/TerraformLearningInfraRole"
+  }
 }
 
 data "external" "what_is_my_ip" {
