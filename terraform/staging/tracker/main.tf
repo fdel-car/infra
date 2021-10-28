@@ -43,7 +43,7 @@ module "alb" {
 
   vpc_id          = data.terraform_remote_state.vpc.outputs.id
   subnets         = data.terraform_remote_state.vpc.outputs.public_subnets
-  security_groups = [date.terraform_remote_state.vpc.outputs.default_security_group_id]
+  security_groups = [data.terraform_remote_state.vpc.outputs.default_security_group_id]
 
   http_tcp_listeners = [{
     port     = 80
