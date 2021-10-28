@@ -64,6 +64,31 @@ module "alb" {
   }
 }
 
+resource "aws_security_group" "instance_sg" {
+  vpc_id = data.terraform_remote_state.vpc.outputs.id
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = data.terraform_remote_state.vpc.outputs.private_subnets_cidr_blocks
+    # ipv6_cidr_blocks = data.terraform_remote_state.vpc.outputs.private_subnets_ipv6_cidr_blocks
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    Terraform   = true
+    Environment = local.environment
+  }
+}
+
 module "asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "4.7.0"
@@ -85,8 +110,9 @@ module "asg" {
   use_lt    = true
   create_lt = true
 
-  image_id      = "ami-06d79c60d7454e2af" // Ubuntu 20.04 LTS amd64
-  instance_type = "t2.micro"
+  image_id        = "ami-06d79c60d7454e2af" // Ubuntu 20.04 LTS amd64
+  instance_type   = "t2.micro"
+  security_groups = [aws_security_group.instance_sg.id]
 
   user_data = <<-EOF
               #!/bin/bash
