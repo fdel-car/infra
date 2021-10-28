@@ -45,10 +45,11 @@ module "vpc" {
   manage_default_security_group = true
   default_security_group_ingress = [
     {
+      self        = true
       from_port   = 80
       to_port     = 80
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "0.0.0.0/0"
     }
   ]
   default_security_group_egress = [{
