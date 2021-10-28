@@ -97,7 +97,7 @@ module "asg" {
   max_size            = 1
   desired_capacity    = 1
   health_check_type   = "EC2"
-  vpc_zone_identifier = data.terraform_remote_state.vpc.outputs.public_subnets
+  vpc_zone_identifier = data.terraform_remote_state.vpc.outputs.private_subnets
 
   target_group_arns = module.alb.target_group_arns
 
