@@ -1,4 +1,24 @@
-module "iam_assumable_role" {
+terraform {
+  required_providers {
+    aws = {
+      source : "hashicorp/aws",
+      version : "3.63.0"
+    }
+  }
+  backend "remote" {
+    organization = "strapi"
+
+    workspaces {
+      name = "iam"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+module "cwa_server_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   version = "4.2.0"
 

@@ -1,11 +1,37 @@
-module "production_vpc" {
+terraform {
+  required_providers {
+    aws = {
+      source : "hashicorp/aws",
+      version : "3.63.0"
+    }
+  }
+  backend "remote" {
+    organization = "strapi"
+
+    workspaces {
+      name = "vpc-production"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+locals {
+  environment = "production"
+}
+
+data "aws_availability_zones" "all" {}
+
+module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.2.0"
 
-  name = "vpc-${var.aws_region}-production-internal-app-stack"
+  name = "vpc-${local.environment}"
   cidr = "10.0.0.0/16"
 
-  azs              = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"]
+  azs              = data.aws_availability_zones.all.names
   private_subnets  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   public_subnets   = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
   database_subnets = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
@@ -25,6 +51,6 @@ module "production_vpc" {
 
   tags = {
     Terraform   = true
-    Environment = "production"
+    Environment = local.environment
   }
 }
