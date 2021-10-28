@@ -43,17 +43,13 @@ module "vpc" {
   enable_dns_hostnames = true
 
   manage_default_security_group = true
-  default_security_group_ingress = [
-    {
-      self        = true
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = "0.0.0.0/0"
-    }
-  ]
+  default_security_group_ingress = [{
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = "0.0.0.0/0"
+  }]
   default_security_group_egress = [{
-    self        = true
     from_port   = 0
     to_port     = 0
     protocol    = -1
