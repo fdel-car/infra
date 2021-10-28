@@ -45,6 +45,14 @@ module "alb" {
   subnets         = data.terraform_remote_state.vpc.outputs.public_subnets
   security_groups = [data.terraform_remote_state.vpc.outputs.default_security_group_id]
 
+  target_groups = [
+    {
+      backend_protocol = "HTTP"
+      backend_port     = 8080
+      target_type      = "instance"
+    }
+  ]
+
   http_tcp_listeners = [{
     port     = 80
     protocol = "HTTP"
@@ -68,6 +76,8 @@ module "asg" {
   health_check_type   = "EC2"
   vpc_zone_identifier = data.terraform_remote_state.vpc.outputs.private_subnets
 
+  target_group_arns = module.alb.target_group_arns
+
   # Launch template
   lt_name     = "tracker-lt-${local.environment}"
   description = "Launch template for the staging tracker."
@@ -77,6 +87,12 @@ module "asg" {
 
   image_id      = "ami-06d79c60d7454e2af" // Ubuntu 20.04 LTS amd64
   instance_type = "t2.micro"
+
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hello, World" > index.html
+              nohup busybox httpd -f -p 8080 &
+              EOF
 
   tags_as_map = {
     Terraform   = true
