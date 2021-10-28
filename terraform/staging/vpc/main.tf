@@ -44,16 +44,18 @@ module "vpc" {
 
   manage_default_security_group = true
   default_security_group_ingress = [{
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = "0.0.0.0/0"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = "0.0.0.0/0"
+    ipv6_cidr_blocks = "::/0"
   }]
   default_security_group_egress = [{
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = "0.0.0.0/0"
+    from_port        = 0
+    to_port          = 0
+    protocol         = -1
+    cidr_blocks      = "0.0.0.0/0"
+    ipv6_cidr_blocks = "::/0"
   }]
 
   tags = {
