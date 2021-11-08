@@ -28,7 +28,7 @@ data "terraform_remote_state" "vpc" {
   config = {
     organization = "strapi"
     workspaces = {
-      name = "vpc-${local.environment}"
+      name = "vpc-internal-${local.environment}"
     }
   }
 }
