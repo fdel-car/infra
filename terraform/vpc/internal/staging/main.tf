@@ -9,7 +9,7 @@ terraform {
     organization = "strapi"
 
     workspaces {
-      name = "vpc-staging"
+      name = "vpc-internal-staging"
     }
   }
 }
@@ -28,7 +28,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.2.0"
 
-  name = "vpc-${local.environment}"
+  name = "vpc-internal-${local.environment}"
   cidr = "10.0.0.0/16"
 
   azs              = data.aws_availability_zones.all.names

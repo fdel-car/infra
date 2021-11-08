@@ -96,7 +96,7 @@ module "asg" {
   min_size            = 0
   max_size            = 1
   desired_capacity    = 1
-  health_check_type   = "EC2"
+  health_check_type   = "EC2" # Use "ELB" to have custom health check instead
   vpc_zone_identifier = data.terraform_remote_state.vpc.outputs.private_subnets
 
   target_group_arns = module.alb.target_group_arns
@@ -108,7 +108,7 @@ module "asg" {
   use_lt    = true
   create_lt = true
 
-  image_id        = "ami-06d79c60d7454e2af" // Ubuntu 20.04 LTS amd64
+  image_id        = "ami-06d79c60d7454e2af" # Ubuntu 20.04 LTS amd64, should be replaced by a custom Packer image
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance_sg.id]
 
