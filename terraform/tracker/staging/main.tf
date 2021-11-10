@@ -4,6 +4,10 @@ terraform {
       source : "hashicorp/aws",
       version : "3.63.0"
     }
+    hcp = {
+      source  = "hashicorp/hcp"
+      version = "0.20.0"
+    }
   }
   backend "remote" {
     organization = "strapi"
@@ -17,6 +21,8 @@ terraform {
 provider "aws" {
   region = var.region
 }
+
+provider "hcp" {}
 
 locals {
   environment = "staging"
@@ -87,6 +93,18 @@ resource "aws_security_group" "instance_sg" {
   }
 }
 
+data "hcp_packer_iteration" "ubuntu" {
+  bucket_name = "create-react-app"
+  channel     = local.environment
+}
+
+data "hcp_packer_image" "ubuntu" {
+  bucket_name    = "create-react-app"
+  cloud_provider = "aws"
+  iteration_id   = data.hcp_packer_iteration.ubuntu.ulid
+  region         = var.region
+}
+
 module "asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "4.7.0"
@@ -108,7 +126,7 @@ module "asg" {
   use_lt    = true
   create_lt = true
 
-  image_id        = "ami-06d79c60d7454e2af" # Ubuntu 20.04 LTS amd64, should be replaced by a custom Packer image
+  image_id        = data.hcp_packer_image.ubuntu.cloud_image_id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance_sg.id]
 

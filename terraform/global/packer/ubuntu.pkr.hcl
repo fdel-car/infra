@@ -24,8 +24,25 @@ source "amazon-ebs" "ubuntu" {
 }
 
 build {
-  name = "golden-image"
+  hcp_packer_registry {
+    description = "Simple wep app using create-react-app."
+  }
+  name = "create-react-app"
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
+  provisioner "shell" {
+    inline_shebang = "/bin/bash -e"
+    inline = [
+      "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash",
+      "export NVM_DIR=\"$HOME/.nvm\"",
+      "[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"",
+      "nvm install 'lts/*'",
+      "npm install --global yarn pm2",
+      "npx create-react-app tracker",
+      "cd tracker",
+      "yarn build",
+      "pm2 serve build"
+    ]
+  }
 }
