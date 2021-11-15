@@ -8,7 +8,7 @@ packer {
 }
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "ubuntu-20.04"
+  ami_name      = "ubuntu-20.04-{{timestamp}}"
   instance_type = "t2.micro"
   region        = "eu-west-3"
   source_ami_filter {

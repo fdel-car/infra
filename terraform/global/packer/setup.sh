@@ -8,6 +8,7 @@ nvm install 16
 
 # Install and configure global packages
 npm install --global yarn pm2
+pm2 startup
 sudo -E env "PATH=$PATH" pm2 startup
 
 # Fetch and serve application
