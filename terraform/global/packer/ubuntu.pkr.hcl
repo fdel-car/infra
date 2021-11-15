@@ -37,12 +37,11 @@ build {
       "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash",
       "export NVM_DIR=\"$HOME/.nvm\"",
       "[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"",
-      "nvm install 'lts/*'",
+      "nvm install 16",
       "npm install --global yarn pm2",
       "npx create-react-app tracker",
       "cd tracker",
       "yarn build",
-      "pm2 serve build"
     ]
   }
 }
