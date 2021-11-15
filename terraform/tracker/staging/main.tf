@@ -130,6 +130,8 @@ module "asg" {
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance_sg.id]
 
+  user_date_64 = filebase64("./user_data.sh")
+
   tags_as_map = {
     Terraform   = true
     Environment = local.environment
