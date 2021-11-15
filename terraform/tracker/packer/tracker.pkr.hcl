@@ -9,6 +9,7 @@ packer {
 
 data "hcp-packer-iteration" "golden" {
   bucket_name = "golden"
+  channel     = var.image_channel
 }
 
 data "hcp-packer-image" "golden" {
