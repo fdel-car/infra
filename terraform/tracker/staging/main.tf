@@ -94,12 +94,12 @@ resource "aws_security_group" "instance_sg" {
 }
 
 data "hcp_packer_iteration" "ubuntu" {
-  bucket_name = "create-react-app"
+  bucket_name = "tracker"
   channel     = local.environment
 }
 
 data "hcp_packer_image" "ubuntu" {
-  bucket_name    = "create-react-app"
+  bucket_name    = "tracker"
   cloud_provider = "aws"
   iteration_id   = data.hcp_packer_iteration.ubuntu.ulid
   region         = var.region
@@ -129,8 +129,6 @@ module "asg" {
   image_id        = data.hcp_packer_image.ubuntu.cloud_image_id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance_sg.id]
-
-  # user_data_base64 = filebase64("./user_data.sh")
 
   tags_as_map = {
     Terraform   = true

@@ -8,7 +8,7 @@ packer {
 }
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "ubuntu-20.04-{{timestamp}}"
+  ami_name      = "golden-{{timestamp}}"
   instance_type = "t2.micro"
   region        = "eu-west-3"
   source_ami_filter {
@@ -25,9 +25,9 @@ source "amazon-ebs" "ubuntu" {
 
 build {
   hcp_packer_registry {
-    description = "Simple wep app using create-react-app."
+    description = "Ubuntu golden image configured with node, yarn and pm2."
   }
-  name = "create-react-app"
+  name = "golden"
   sources = [
     "source.amazon-ebs.ubuntu"
   ]

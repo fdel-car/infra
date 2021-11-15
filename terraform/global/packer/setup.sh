@@ -8,12 +8,5 @@ nvm install 16
 
 # Install and configure global packages
 npm install --global yarn pm2
-pm2 startup
+pm2 list # Don't remove this line otherwise .pm2 folder will have permissions issues
 sudo -E env "PATH=$PATH" pm2 startup
-
-# Fetch and serve application
-npx create-react-app tracker
-cd tracker
-yarn build
-pm2 serve build
-pm2 save
