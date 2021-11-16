@@ -9,7 +9,7 @@ packer {
 
 data "hcp-packer-iteration" "golden" {
   bucket_name = "golden"
-  channel     = var.image_channel
+  channel     = var.iteration_channel
 }
 
 data "hcp-packer-image" "golden" {
@@ -43,6 +43,7 @@ build {
       "npx create-react-app tracker",
       "cd tracker",
       "yarn build",
+      "sudo chown ubuntu:ubuntu -R ~/.pm2",
       "pm2 serve build",
       "pm2 save"
     ]

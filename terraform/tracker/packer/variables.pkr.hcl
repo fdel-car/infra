@@ -1,4 +1,4 @@
-variable "image_channel" {
+variable "iteration_channel" {
   type    = string
   default = "staging"
 }
