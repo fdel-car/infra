@@ -119,6 +119,10 @@ module "asg" {
 
   target_group_arns = module.alb.target_group_arns
 
+  instance_refresh = {
+    strategy = "Rolling"
+  }
+
   # Launch template
   lt_name     = "tracker-lt-${local.environment}"
   description = "Launch template for the staging tracker."
